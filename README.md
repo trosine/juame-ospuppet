@@ -302,6 +302,8 @@ Pull Requests and [Issues](https://github.com/juame/juame-ospuppet/issues) are h
 
 ### Running tests
 
+[![Build Status](https://travis-ci.org/juame/juame-ospuppet.svg?branch=master)](https://travis-ci.org/juame/juame-ospuppet)
+
 This repository contains tests for rspec-puppet.
 
 Quickstart:
