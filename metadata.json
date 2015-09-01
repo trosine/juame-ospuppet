@@ -1,0 +1,26 @@
+{
+  "name": "juame-ospuppet",
+  "version": "0.1.0",
+  "author": "juame",
+  "summary": "Puppet module for Puppet (Puppet Server)",
+  "license": "Apache-2.0",
+  "source": "https://github.com/juame/juame-ospuppet.git",
+  "project_page": "https://github.com/juame/juame-ospuppet",
+  "issues_url": "https://github.com/juame/juame-ospuppet/issues",
+  "tags": ["puppetserver", "puppet", "puppetmaster", "puppetagent"],
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "6", "7" ]
+    },
+    {
+      "operatingsystem":"CentOS",
+      "operatingsystemrelease":[ "6", "7" ]
+    }
+  ],
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":"4.x"},
+    {"name":"puppetlabs/inifile","version_requirement":"1.x"},
+    {"name":"puppetlabs/hocon","version_requirement":">=0.9.2"}
+  ]
+}

@@ -1,0 +1,12 @@
+fixtures:
+  repositories:
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    inifile:
+      repo: "https://github.com/puppetlabs/puppetlabs-inifile.git"
+      ref:  "1.4.1"
+    hocon:
+      repo: "https://github.com/puppetlabs/puppetlabs-hocon.git"
+      ref:  "0.9.2"
+  symlinks:
+    ospuppet: "#{source_dir}"

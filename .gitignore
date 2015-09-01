@@ -1,0 +1,6 @@
+.vagrant/machines/
+spec/fixtures/
+Gemfile.lock
+Puppetfile.lock
+.tmp/
+.swp
