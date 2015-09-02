@@ -4,3 +4,4 @@ Gemfile.lock
 Puppetfile.lock
 .tmp/
 .swp
+pkg/
