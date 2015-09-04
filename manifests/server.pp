@@ -6,8 +6,9 @@ class ospuppet::server (
   $service_name                        = 'puppetserver',
   $service_running                     = true,
   $service_enabled                     = true,
-  $service_manage_master               = true,
+  $service_manage_master               = false,
   $config_dir                          = '/etc/puppetlabs/puppetserver/conf.d',
+  $init_settings_config                = $::ospuppet::server::params::init_settings_config,
   $init_settings_java_bin              = '/usr/bin/java',
   $init_settings_java_xms              = '512m',
   $init_settings_java_xmx              = '512m',
@@ -35,7 +36,7 @@ class ospuppet::server (
   $webserver_ssl_host                  = '0.0.0.0',
   $webserver_ssl_port                  = '8140',
   $webserver_custom_settings           = {},
-){
+) inherits ::ospuppet::server::params {
 
   validate_bool(
     $ensure_installed,
@@ -60,6 +61,7 @@ class ospuppet::server (
   )
 
   validate_absolute_path(
+    $init_settings_config,
     $init_settings_java_bin,
     $init_settings_install_dir,
     $config_dir,

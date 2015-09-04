@@ -1,7 +1,10 @@
 require 'spec_helper'
 describe 'ospuppet::server::config::init_settings' do
 
-  let (:facts) { { :operatingsystem => 'CentOS' } }
+  let (:facts) { {
+    :osfamily => 'RedHat',
+    :operatingsystem => 'CentOS',
+  } }
 
   let(:pre_condition) do
     'class { "ospuppet::server": }'
@@ -9,6 +12,26 @@ describe 'ospuppet::server::config::init_settings' do
 
   context 'with defaults for all parameters' do
     it { should contain_class('ospuppet::server::config::init_settings') }
+  end
+
+  describe 'tests for paramter $init_settings_config' do
+    context 'default value for $init_settings_config on RedHat OS' do
+      let (:facts) { { :osfamily => 'RedHat', :operatingsystem => 'CentOS', } }
+      it { should contain_ini_setting('ospuppet-puppetserver-init-setting-JAVA_BIN')\
+        .with_setting('JAVA_BIN').with_path('/etc/sysconfig/puppetserver') }
+    end
+    context 'default value for $init_settings_config on RedHat OS' do
+      let (:facts) { { :osfamily => 'Debian', :operatingsystem => 'Debian', } }
+      it { should contain_ini_setting('ospuppet-puppetserver-init-setting-JAVA_BIN')\
+        .with_setting('JAVA_BIN').with_path('/etc/default/puppetserver') }
+    end
+    context 'specified value for $init_settings_config' do
+      let(:pre_condition) do
+        'class { "ospuppet::server": init_settings_config => "/tmp/puppetserver/settings" }'
+      end
+      it { should contain_ini_setting('ospuppet-puppetserver-init-setting-JAVA_BIN')\
+        .with_setting('JAVA_BIN').with_path('/tmp/puppetserver/settings') }
+    end
   end
 
   describe 'init settings default config - resource ini_setting validation with default parameters' do

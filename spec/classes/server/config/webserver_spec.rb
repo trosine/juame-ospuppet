@@ -1,7 +1,10 @@
 require 'spec_helper'
 describe 'ospuppet::server::config::puppetserver' do
 
-  let (:facts) { { :operatingsystem => 'CentOS' } }
+  let (:facts) { {
+    :osfamily => 'RedHat',
+    :operatingsystem => 'CentOS',
+  } }
 
   let(:pre_condition) do
     'class { "ospuppet::server": }'

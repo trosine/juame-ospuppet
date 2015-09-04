@@ -2,6 +2,7 @@
 class ospuppet::server::config::init_settings {
 
   $config_dir                         = $::ospuppet::server::config_dir
+  $init_settings_config               = $::ospuppet::server::init_settings_config
   $init_settings_java_bin             = $::ospuppet::server::init_settings_java_bin
   $init_settings_java_xms             = $::ospuppet::server::init_settings_java_xms
   $init_settings_java_xmx             = $::ospuppet::server::init_settings_java_xmx
@@ -121,7 +122,7 @@ class ospuppet::server::config::init_settings {
 
   $defaults = {
     'ensure'  => present,
-    'path' => '/etc/sysconfig/puppetserver',
+    'path' => $init_settings_config,
   }
 
   $initsettings_ini_settings = merge(

@@ -1,7 +1,10 @@
 require 'spec_helper'
 describe 'ospuppet::server::service' do
 
-  let (:facts) { { :operatingsystem => 'CentOS' } }
+  let (:facts) { {
+    :osfamily => 'RedHat',
+    :operatingsystem => 'CentOS',
+  } }
 
   let(:pre_condition) do
     'class { "ospuppet::server": }'
@@ -48,14 +51,14 @@ describe 'ospuppet::server::service' do
   end
 
   describe 'verify service_manage_master' do
-    context 'default ospuppet::server::service_manage_master should be true and disable puppetmaster service' do
-      it { should contain_service('puppetmaster').with({ "ensure" => "stopped", "enable" => "false" }) }
-    end
-    context 'service_manage_master is set to false and puppetmaster should be unmanaged' do
-      let(:pre_condition) do
-        'class { "ospuppet::server": service_manage_master => false }'
-      end
+    context 'default service_manage_master is set to false and puppetmaster should be unmanaged' do
       it { should_not contain_service('puppetmaster') }
+    end
+    context 'ospuppet::server::service_manage_master is set to true and puppetmaster service should be disabled' do
+      let(:pre_condition) do
+        'class { "ospuppet::server": service_manage_master => true }'
+      end
+      it { should contain_service('puppetmaster').with({ "ensure" => "stopped", "enable" => "false" }) }
     end
   end
 

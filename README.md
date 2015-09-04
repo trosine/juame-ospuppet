@@ -76,6 +76,8 @@ class { '::ospuppet::server':
 
 This will make sure that the Puppet Server service is running and the service is enabled.
 When `$service_manage_master` is set to true it will make sure that any Puppet Master service is stopped.
+(It might be possible that an error occur when there's no Puppet Master service. I'm thinking about removing this.)
+
 ```
 class { '::ospuppet::server':
   service_name          => 'running',
@@ -110,7 +112,7 @@ The hash `puppetserver_custom_settings` can be used to create any [hocon_setting
 ```
 class { '::ospuppet::server':
   puppetserver_max_active_instances => 1,
-  puppetserver_custom_settings => {
+  puppetserver_custom_settings      => {
     'max-requests-per-instance' => {
       'ensure'  => 'present',
       'setting' => 'jruby-puppet.max-requests-per-instance',
@@ -176,11 +178,15 @@ Specifies if the service is enabled. Valid options: a boolean. Default: `true`.
 
 ##### `service_manage_master`
 
-Specifies if the Puppet Master service is managed. Managed means this module stops and disables the service. Valid options: a boolean. Default: `true`.
+Specifies if the Puppet Master service is managed. Managed means this module stops and disables the service. Valid options: a boolean. Default: `false`.
 
 ##### `config_dir`
 
-Specifies the configuration directory of the Puppet Server installation. Parameter is also used for the init setting `CONFIG`.Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/puppetserver/conf.d`.
+Specifies the configuration directory of the Puppet Server installation. Parameter is also used for the init setting `CONFIG`. Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/puppetserver/conf.d`.
+
+##### `init_settings_config`
+
+Specifies the init settings configuration file. Valid options: a string containing an absolute path. Default: `/etc/sysconfig/puppetserver` (RedHat) or `/etc/default/puppetserver` (Debian).
 
 ##### `init_settings_java_bin`
 
