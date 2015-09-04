@@ -1,7 +1,10 @@
 require 'spec_helper'
 describe 'ospuppet::server' do
 
-  let(:facts) { { :operatingsystem => 'CentOS' } }
+  let (:facts) { {
+    :osfamily => 'RedHat',
+    :operatingsystem => 'CentOS',
+  } }
 
   context 'catalog should compile' do
     it { should compile }
@@ -12,6 +15,9 @@ describe 'ospuppet::server' do
   end
 
   describe 'subclasses should be included' do
+    context 'should contain params class' do
+      it { should contain_class('ospuppet::server::params') }
+    end
     context 'should contain install class' do
       it { should contain_class('ospuppet::server::install') }
     end
@@ -96,6 +102,12 @@ describe 'ospuppet::server' do
       let(:params) { { :package_version => ['foo', 'bar'] } }
       it do
         expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+      end
+    end
+    context '$init_settings_config should fail because it is not absolute path' do
+      let(:params) { { :init_settings_java_bin => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
       end
     end
     context '$init_settings_java_bin should fail because it is not absolute path' do

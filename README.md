@@ -182,7 +182,11 @@ Specifies if the Puppet Master service is managed. Managed means this module sto
 
 ##### `config_dir`
 
-Specifies the configuration directory of the Puppet Server installation. Parameter is also used for the init setting `CONFIG`.Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/puppetserver/conf.d`.
+Specifies the configuration directory of the Puppet Server installation. Parameter is also used for the init setting `CONFIG`. Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/puppetserver/conf.d`.
+
+##### `init_settings_config`
+
+Specifies the init settings configuration file. Valid options: a string containing an absolute path. Default: `/etc/sysconfig/puppetserver` (RedHat) or `/etc/default/puppetserver` (Debian).
 
 ##### `init_settings_java_bin`
 
