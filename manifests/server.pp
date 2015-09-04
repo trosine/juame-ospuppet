@@ -6,7 +6,7 @@ class ospuppet::server (
   $service_name                        = 'puppetserver',
   $service_running                     = true,
   $service_enabled                     = true,
-  $service_manage_master               = true,
+  $service_manage_master               = false,
   $config_dir                          = '/etc/puppetlabs/puppetserver/conf.d',
   $init_settings_java_bin              = '/usr/bin/java',
   $init_settings_java_xms              = '512m',
