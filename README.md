@@ -1,5 +1,7 @@
 # ospuppet
 
+[![Build Status](https://travis-ci.org/juame/juame-ospuppet.svg?branch=master)](https://travis-ci.org/juame/juame-ospuppet)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -307,8 +309,6 @@ The module is limited to Puppet 4.x releases and RedHat or CentOS Linux.
 Pull Requests and [Issues](https://github.com/juame/juame-ospuppet/issues) are highly appreciated.
 
 ### Running tests
-
-[![Build Status](https://travis-ci.org/juame/juame-ospuppet.svg?branch=master)](https://travis-ci.org/juame/juame-ospuppet)
 
 This repository contains tests for rspec-puppet.
 
