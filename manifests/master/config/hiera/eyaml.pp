@@ -25,8 +25,8 @@ class ospuppet::master::config::hiera::eyaml {
 
   file { $hiera_eyaml_key_dir:
     ensure => directory,
-    owner   => $puppet_user,
-    group   => $puppet_group,
+    owner  => $puppet_user,
+    group  => $puppet_group,
     mode   => '0771',
     before => Exec["${module_name}.${name}.createkeys"],
   }
