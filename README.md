@@ -6,6 +6,8 @@
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
+  * [Puppet Server](#puppet-server)
+  * [Puppet Master](#puppet-master)
 3. [Setup](#setup)
   * [Setup requirements](#setup-requirements)
   * [Beginning with ospuppet](#beginning-with-ospuppet)
@@ -33,12 +35,17 @@ The ospuppet module lets you use Puppet to install, configure and manage puppet 
 The ospuppet module lets you use Puppet for following components:
 
   * Puppet Server (>2.0.0)
+  * Puppet Master
 
 To manage the files in ini format the module uses the resources of the module [puppetlabs/inifile](https://forge.puppetlabs.com/puppetlabs/inifile). It uses the resources of the module [puppetlabs/hocon](https://forge.puppetlabs.com/puppetlabs/hocon) to manage the files in HOCON format.
 
 ### Puppet Server
 
 The module lets you install, configure and manage the Puppet Server. Currently it's possible to manage the `init settings`, `puppetserver.conf` and `webserver.conf` configuration files. The class `::ospuppet::server ` does have parameters for the very standard settings in the mentioned configuration files. There are also hashes to add or manage other settings without dedicated parameters.
+
+### Puppet Master
+
+The module lets you configure the `hiera.yaml` with the backends `yaml` and `eyaml`. The module creates a private-/public-key pair if `eyaml` is enabled.
 
 ## Setup
 
@@ -55,10 +62,21 @@ For example you can use the [Puppet Collections](https://docs.puppetlabs.com/gui
 
 ### Beginning with ospuppet
 
+#### Puppet Server
+
 The simplest way to get Puppet Server up and running with this module is...
 
 ```
 include ::ospuppet::server
+```
+
+#### Puppet Master
+
+The simplest way to get Puppet Master up and running with this module is...
+
+```
+include ::ospuppet::server
+include ::ospuppet::master
 ```
 
 ## Usage
@@ -139,10 +157,15 @@ class { '::ospuppet::server':
 #### Public Classes
 
   * `::ospuppet` main class. Empty.
+  * `::ospuppet::master` class to manage Puppet Master.
   * `::ospuppet::server` class to manage Puppet Server.
 
 #### Private Classes
 
+  * `::ospuppet::master::config` class for the configuration of the Puppet Master.
+    * `::ospuppet::master::config::hiera` manages the `hiera.yaml`.
+      * `::ospuppet::master::config::hiera::eyaml` installs and configures eyaml.
+      * `::ospuppet::master::config::hiera::merge` installs the gem for the merge behavior.
   * `::ospuppet::server::config` class for the configuration of the Puppet Server.
     * `::ospuppet::server::config::init_settings` manages the init settings.
     * `::ospuppet::server::config::puppetserver` manages the settings in the `puppetserver.conf`.
@@ -151,6 +174,82 @@ class { '::ospuppet::server':
   * `::ospuppet::server::service` this class manages the Puppet Server services.
 
 ### Parameters
+
+#### ::ospuppet::master
+
+##### `puppet_user`
+
+Specifies the user for the Puppet processes. Valid options: a string containing a valid user name. Default: `puppet`.
+
+##### `puppet_group`
+
+Specifies the group for the Puppet processes. Valid options: a string containing a valid user name. Default: `puppet`.
+
+##### `puppet_gem_provider`
+
+Specifies the provider for Puppet. Valid options: a string containing a valid provider. Default: `puppet_gem`.
+
+##### `puppetserver_gem_provider`
+
+Specifies the provider for Puppet Server. Valid options: a string containing a valid provider. Default: `puppetserver_gem`.
+
+##### `hiera_config`
+
+Specifies the path to the `hiera.yaml`. Valid options: a string containing an absolute path. Default: `/etc/puppet/code/hiera.yaml`.
+
+##### `hiera_backends`
+
+Specifies the backends for hiera. Valid options: an array containing strings. Default: `[ 'yaml', 'eyaml' ]`.
+
+##### `hiera_hierarchy`
+
+Specifies the backends for hiera. Valid options: an array containing pathes within the hiera datadir.
+Default: `[ 'secure/nodes/%{::clientcert}', 'secure/services/%{::service}/%{::stage}/%{::role}', 'nodes/%{::clientcert}', 'services/%{::service}/%{::stage}/%{::role}', 'services/%{::service}/%{::stage}', 'services/%{::service}/%{::role}', 'services/%{::service}', 'locations/%{::location}', 'common' ]`.
+
+##### `hiera_yaml_datadir`
+
+Specifies the path to the yaml and eyaml datadir. Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/code/environments/%{environment}/hieradata`.
+
+##### `hiera_merge_package_name`
+
+Specifies the name of the hiera merge gem. Valid options: a string containing a valid name. Default: `deep_merge`.
+
+
+##### `hiera_merge_package_version`
+
+Specifies which version of the package should be installed. Valid options: a string containing a version. Default: `latest`.
+
+##### `hiera_merge_behavior`
+
+Specifies the merge behavior. Valid options: a string containing a valid merge behavior: `native`, `deep` or `deeper`. Default: `deeper`.
+
+##### `hiera_logger`
+
+Specifies the logging of hiera. Valid options: a string containing a valid log type: `noop`, `console` or `puppet`. Default: `noop`.
+
+##### `hiera_eyaml_package_name`
+
+Specifies the name of the eyaml gem. Valid options: a string containing a valid name. Default: `hiera-eyaml`.
+
+##### `hiera_eyaml_package_version`
+
+Specifies which version of the package should be installed. Valid options: a string containing a version. Default: `latest`.
+
+##### `hiera_eyaml_extension`
+
+Specifies the extension for eyaml files. Valid options: a string. Default: `eyaml`.
+
+##### `hiera_eyaml_key_dir`
+
+Specifies the path to the eyaml keys. Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/puppet/keys`.
+
+##### `hiera_eyaml_private_key`
+
+Specifies the name of the eyaml private key. Valid options: a string. Default: `private_key.pkcs7.pem`.
+
+##### `hiera_eyaml_public_key`
+
+Specifies the name of the eyaml public key. Valid options: a string. Default: `public_key.pkcs7.pem`.
 
 #### ::ospuppet::server
 
