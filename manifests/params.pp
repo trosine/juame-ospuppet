@@ -14,6 +14,7 @@ class ospuppet::params {
   $agent_certname          = $::fqdn
   $agent_server            = 'puppet'
   $agent_ca_server         = undef
+  $agent_report            = true
   $agent_report_server     = undef
   $agent_environment       = production
   $agent_priority          = undef

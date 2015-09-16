@@ -14,6 +14,7 @@ class ospuppet (
   $agent_certname              = $::ospuppet::params::agent_certname,
   $agent_server                = $::ospuppet::params::agent_server,
   $agent_ca_server             = $::ospuppet::params::agent_ca_server,
+  $agent_report                = $::ospuppet::params::agent_report,
   $agent_report_server         = $::ospuppet::params::agent_report_server,
   $agent_environment           = $::ospuppet::params::agent_environment,
   $agent_priority              = $::ospuppet::params::agent_priority,
@@ -54,6 +55,7 @@ class ospuppet (
   validate_bool(
     $agent_service_running,
     $agent_service_enabled,
+    $agent_report,
     $agent_usecacheonfailure,
     $agent_daemonize,
   )

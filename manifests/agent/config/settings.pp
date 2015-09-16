@@ -6,6 +6,7 @@ class ospuppet::agent::config::settings {
   $agent_certname          = $::ospuppet::agent_certname
   $agent_server            = $::ospuppet::agent_server
   $agent_ca_server         = $::ospuppet::agent_ca_server
+  $agent_report            = $::ospuppet::agent_report
   $agent_report_server     = $::ospuppet::agent_report_server
   $agent_environment       = $::ospuppet::agent_environment
   $agent_priority          = $::ospuppet::agent_priority
@@ -46,6 +47,10 @@ class ospuppet::agent::config::settings {
       'ensure'  => $ensure_agent_ca_server,
       'setting' => 'ca_server',
       'value'   => $agent_ca_server,
+    },
+    "${name}.agent_report" => {
+      'setting' => 'report',
+      'value'   => $agent_report,
     },
     "${name}.agent_report_server" => {
       'ensure'  => $ensure_agent_report_server,
