@@ -39,7 +39,7 @@ class ospuppet::agent::config::settings {
       'setting' => 'certname',
       'value'   => $agent_certname,
     },
-    "${name}.agent_Server" => {
+    "${name}.agent_server" => {
       'setting' => 'server',
       'value'   => $agent_server,
     },

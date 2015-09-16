@@ -9,7 +9,7 @@ class ospuppet::params {
   $package_name            = 'puppet-agent'
   $package_version         = 'latest'
   $agent_service_name      = 'puppet'
-  $agent_service_running   = false
+  $agent_service_running   = true
   $agent_service_enabled   = true
   $agent_certname          = $::fqdn
   $agent_server            = 'puppet'
