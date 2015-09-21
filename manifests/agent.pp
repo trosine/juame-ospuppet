@@ -1,23 +1,25 @@
 # Class to configure a Puppet Agent. See README.md for more details.
 class ospuppet::agent (
-  $package_name          = $::ospuppet::agent::params::package_name,
-  $package_version       = $::ospuppet::agent::params::package_version,
-  $service_name          = $::ospuppet::agent::params::service_name,
-  $service_running       = $::ospuppet::agent::params::service_running,
-  $service_enabled       = $::ospuppet::agent::params::service_enabled,
-  $init_settings_config  = $::ospuppet::agent::params::init_settings_config,
-  $certname              = $::ospuppet::agent::params::certname,
-  $server                = $::ospuppet::agent::params::server,
-  $ca_server             = $::ospuppet::agent::params::ca_server,
-  $report                = $::ospuppet::agent::params::report,
-  $report_server         = $::ospuppet::agent::params::report_server,
-  $environment           = $::ospuppet::agent::params::environment,
-  $priority              = $::ospuppet::agent::params::priority,
-  $usecacheonfailure     = $::ospuppet::agent::params::usecacheonfailure,
-  $runinterval           = $::ospuppet::agent::params::runinterval,
-  $waitforcert           = $::ospuppet::agent::params::waitforcert,
-  $daemonize             = $::ospuppet::agent::params::daemonize,
-  $custom_settings       = $::ospuppet::agent::params::custom_settings,
+  $package_name                     = $::ospuppet::agent::params::package_name,
+  $package_version                  = $::ospuppet::agent::params::package_version,
+  $service_name                     = $::ospuppet::agent::params::service_name,
+  $service_running                  = $::ospuppet::agent::params::service_running,
+  $service_enabled                  = $::ospuppet::agent::params::service_enabled,
+  $init_settings_config             = $::ospuppet::agent::params::init_settings_config,
+  $init_settings_custom_settings    = {},
+  $init_settings_custom_subsettings = {},
+  $certname                         = $::ospuppet::agent::params::certname,
+  $server                           = $::ospuppet::agent::params::server,
+  $ca_server                        = $::ospuppet::agent::params::ca_server,
+  $report                           = $::ospuppet::agent::params::report,
+  $report_server                    = $::ospuppet::agent::params::report_server,
+  $environment                      = $::ospuppet::agent::params::environment,
+  $priority                         = $::ospuppet::agent::params::priority,
+  $usecacheonfailure                = $::ospuppet::agent::params::usecacheonfailure,
+  $runinterval                      = $::ospuppet::agent::params::runinterval,
+  $waitforcert                      = $::ospuppet::agent::params::waitforcert,
+  $daemonize                        = $::ospuppet::agent::params::daemonize,
+  $custom_settings                  = $::ospuppet::agent::params::custom_settings,
 ) inherits ::ospuppet::agent::params {
 
   require ospuppet
@@ -57,7 +59,12 @@ class ospuppet::agent (
     $init_settings_config,
   )
 
-  validate_hash($custom_settings)
+  validate_hash(
+    $custom_settings,
+    $init_settings_custom_settings,
+    $init_settings_custom_subsettings,
+  )
+
   validate_re($runinterval, '^\d+(?:.\d+)?(?:s|m|h|d|y)$')
   validate_re($waitforcert, '^\d+(?:.\d+)?(?:s|m|h|d|y)$')
 

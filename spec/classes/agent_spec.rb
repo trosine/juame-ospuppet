@@ -118,6 +118,18 @@ describe 'ospuppet::agent' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
       end
     end
+    context '$init_settings_custom_settings should fail because it is not hash' do
+      let(:params) { { :init_settings_custom_settings => ['foo', 'bar'] } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a Hash/)
+      end
+    end
+    context '$init_settings_custom_subsettings should fail because it is not hash' do
+      let(:params) { { :init_settings_custom_subsettings => ['foo', 'bar'] } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a Hash/)
+      end
+    end
     context '$certname should fail because it is not string' do
       let(:params) { { :certname => ['foo', 'bar'] } }
       it do
