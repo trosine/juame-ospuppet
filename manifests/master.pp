@@ -1,7 +1,5 @@
 # Class to configure a Puppet Master. See README.md for more details.
 class ospuppet::master (
-  $puppet_user                 = $::ospuppet::master::params::puppet_user,
-  $puppet_group                = $::ospuppet::master::params::puppet_group,
   $hiera_config                = $::ospuppet::master::params::hiera_config,
   $hiera_backends              = $::ospuppet::master::params::hiera_backends,
   $hiera_hierarchy             = $::ospuppet::master::params::hiera_hierarchy,
@@ -36,8 +34,6 @@ class ospuppet::master (
   )
 
   validate_string(
-    $puppet_user,
-    $puppet_group,
     $hiera_merge_package_name,
     $hiera_merge_package_version,
     $hiera_merge_behavior,

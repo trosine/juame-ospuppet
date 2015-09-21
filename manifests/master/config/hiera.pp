@@ -1,8 +1,8 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::master::config::hiera {
 
-  $puppet_user                 = $::ospuppet::master::puppet_user
-  $puppet_group                = $::ospuppet::master::puppet_group
+  $puppet_user                 = $::ospuppet::puppet_user
+  $puppet_group                = $::ospuppet::puppet_group
   $hiera_config                = $::ospuppet::master::hiera_config
   $hiera_backends              = $::ospuppet::master::hiera_backends
   $hiera_hierarchy             = $::ospuppet::master::hiera_hierarchy

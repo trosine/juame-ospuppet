@@ -27,10 +27,12 @@ describe 'ospuppet::master::config::hiera::eyaml' do
     end
     context 'should contain directory for keys with specified params' do
       let(:pre_condition) {
-        'class { "ospuppet::master":
-          hiera_backends      => ["yaml", "eyaml"],
+        'class { "ospuppet":
           puppet_user         => "foobar",
           puppet_group        => "foobar",
+        } ->
+        class { "ospuppet::master":
+          hiera_backends      => ["yaml", "eyaml"],
           hiera_eyaml_key_dir => "/tmp/keys",
         }'
       }
@@ -55,9 +57,11 @@ describe 'ospuppet::master::config::hiera::eyaml' do
     end
     context 'should contain exec resource to create key with specified params' do
       let(:pre_condition) {
-        'class { "ospuppet::master":
+        'class { "ospuppet":
+          puppet_user         => "foobar",
+        } ->
+        class { "ospuppet::master":
           hiera_backends          => ["yaml", "eyaml"],
-          puppet_user             => "foobar",
           hiera_eyaml_key_dir     => "/tmp/keys",
           hiera_eyaml_private_key => "private.key",
           hiera_eyaml_public_key  => "public.key",

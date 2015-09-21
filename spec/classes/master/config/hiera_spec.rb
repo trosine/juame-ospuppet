@@ -66,9 +66,11 @@ describe 'ospuppet::master::config::hiera' do
     end
     context 'should contain hiera.yaml configuration file with specified parameters' do
       let(:pre_condition) {
-        'class { "ospuppet::master":
-          puppet_user  => "foo",
-          puppet_group => "bar",
+        'class { "ospuppet":
+          puppet_user         => "foo",
+          puppet_group        => "bar",
+        } ->
+        class { "ospuppet::master":
           hiera_config => "/tmp/hiera/hiera.yaml"
         }'
       }
@@ -79,6 +81,5 @@ describe 'ospuppet::master::config::hiera' do
         .with_mode('0644') }
     end
   end
-
 
 end

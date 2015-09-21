@@ -1,8 +1,6 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::master::params {
 
-  $puppet_user                 = 'puppet'
-  $puppet_group                = 'puppet'
   $hiera_config                = '/etc/puppetlabs/code/hiera.yaml'
   $hiera_backends              = [ 'yaml', 'eyaml' ]
   $hiera_hierarchy             = [

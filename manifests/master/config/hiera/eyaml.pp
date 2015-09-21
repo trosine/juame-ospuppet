@@ -1,8 +1,8 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::master::config::hiera::eyaml {
 
-  $puppet_user                 = $::ospuppet::master::puppet_user
-  $puppet_group                = $::ospuppet::master::puppet_group
+  $puppet_user                 = $::ospuppet::puppet_user
+  $puppet_group                = $::ospuppet::puppet_group
   $puppet_gem_provider         = $::ospuppet::puppet_gem_provider
   $puppetserver_gem_provider   = $::ospuppet::puppetserver_gem_provider
   $hiera_eyaml_package_name    = $::ospuppet::master::hiera_eyaml_package_name
