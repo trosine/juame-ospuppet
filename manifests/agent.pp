@@ -66,7 +66,7 @@ class ospuppet::agent (
   )
 
   validate_re($runinterval, '^\d+(?:.\d+)?(?:s|m|h|d|y)$')
-  validate_re($waitforcert, '^\d+(?:.\d+)?(?:s|m|h|d|y)$')
+  validate_re($waitforcert, '(^\d+(?:.\d+)?(?:s|m|h|d|y)$|^0$)')
 
   Class[ospuppet::agent::install] -> Class[ospuppet::agent::config]
   Class[ospuppet::agent::config] ~> Class[ospuppet::agent::service]

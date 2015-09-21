@@ -59,6 +59,10 @@ describe 'ospuppet::agent' do
       let(:params) { { :runinterval => '1y' } }
       it { should compile }
     end
+    context '$waitforcert should match regex for 0' do
+      let(:params) { { :waitforcert => '0' } }
+      it { should compile }
+    end
     context '$waitforcert should match regex for 30s' do
       let(:params) { { :waitforcert => '30s' } }
       it { should compile }
@@ -186,6 +190,12 @@ describe 'ospuppet::agent' do
     end
     context '$runinterval should fail because it is not ending with correct extension' do
       let(:params) { { :runinterval => '30weeks' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /does not match/)
+      end
+    end
+    context '$waitforcert should fail because it is not 0 or ending with allowed extension' do
+      let(:params) { { :waitforcert => '10' } }
       it do
         expect { catalogue }.to raise_error(Puppet::Error, /does not match/)
       end
