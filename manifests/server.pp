@@ -38,6 +38,8 @@ class ospuppet::server (
   $webserver_custom_settings           = {},
 ) inherits ::ospuppet::server::params {
 
+  include ospuppet
+
   validate_bool(
     $ensure_installed,
     $service_enabled,
