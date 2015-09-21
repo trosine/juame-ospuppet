@@ -8,5 +8,8 @@ fixtures:
     hocon:
       repo: "https://github.com/puppetlabs/puppetlabs-hocon.git"
       ref:  "0.9.2"
+    puppetserver_gem:
+      repo: "https://github.com/puppetlabs/puppetlabs-puppetserver_gem.git"
+      ref:  "0.1.0"
   symlinks:
     ospuppet: "#{source_dir}"

@@ -1,0 +1,21 @@
+---
+:backends:
+  <%= @hiera_backends.to_yaml.split("\n").drop(1).join("\n\s\s") %>
+
+:hierarchy:
+  <%= @hiera_hierarchy.to_yaml.split("\n").drop(1).join("\n\s\s") %>
+
+<% if @yaml_enabled -%>
+:yaml:
+  :datadir: <%= @hiera_yaml_datadir %>
+<% end -%>
+<% if @eyaml_enabled -%>
+:eyaml:
+  :datadir:           <%= @hiera_yaml_datadir %>
+  :extension:         <%= @hiera_eyaml_extension %>
+  :pkcs7_private_key: <%= @hiera_eyaml_key_dir%>/<%= @hiera_eyaml_private_key %>
+  :pkcs7_public_key:  <%= @hiera_eyaml_key_dir%>/<%= @hiera_eyaml_public_key %>
+<% end -%>
+
+:merge_behavior: <%= @hiera_merge_behavior%>
+:logger:         <%= @hiera_logger %>
