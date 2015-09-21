@@ -6,21 +6,29 @@
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
-  * [Puppet Server](#puppet-server)
+  * [Puppet Agent](#puppet-agent)
   * [Puppet Master](#puppet-master)
+  * [Puppet Server](#puppet-server)
 3. [Setup](#setup)
   * [Setup requirements](#setup-requirements)
   * [Beginning with ospuppet](#beginning-with-ospuppet)
 4. [Usage](#usage)
-  * [Memory Allocation](#memory-allocation)
-  * [Manage Puppet Server Service and stop Puppet Master](#manage-puppet-server-service-and-stop-puppet-master)
-  * [Puppet Server should listen on specific IP and port](#puppet-server-should-listen-on-specific-ip-and-port)
-  * [puppet-admin HTTP API Client Whitelist](#puppet-admin-http-api-client-whitelist)
-  * [Add any setting to puppetserver.conf without specific parameter](#add-any-setting-to-puppetserverconf-without-specific-parameter)
+  * [Usage of Puppet Agent](#usage-of-puppet-agent)
+    * [Install Puppet Agent and specify some settings](#install-puppet-agent-and-specify-some-settings)
+  * [Usage of Puppet Master](#usage-of-puppet-master)
+    * [Configure Hiera Settings](#configure-hiera-settings)
+  * [Usage of Puppet Server](#usage-of-puppet-server)
+    * [Memory Allocation](#memory-allocation)
+    * [Manage Puppet Server Service and stop Puppet Master](#manage-puppet-server-service-and-stop-puppet-master)
+    * [Puppet Server should listen on specific IP and port](#puppet-server-should-listen-on-specific-ip-and-port)
+    * [puppet-admin HTTP API Client Whitelist](#puppet-admin-http-api-client-whitelist)
+    * [Add any setting to puppetserver.conf without specific parameter](#add-any-setting-to-puppetserverconf-without-specific-parameter)
 5. [Reference](#reference)
   * [Classes](#classes)
   * [Defines](#defines)
   * [Parameters](#parameters)
+    * [::ospuppet::agent](#ospuppetagent)
+    * [::ospuppet::master](#ospuppetmaster)
     * [::ospuppet::server](#ospuppetserver)
 6. [Limitations](#limitations)
 7. [Development](#development)
@@ -34,18 +42,24 @@ The ospuppet module lets you use Puppet to install, configure and manage puppet 
 
 The ospuppet module lets you use Puppet for following components:
 
-  * Puppet Server (>2.0.0)
+  * Puppet Agent
   * Puppet Master
+  * Puppet Server (>2.0.0)
 
 To manage the files in ini format the module uses the resources of the module [puppetlabs/inifile](https://forge.puppetlabs.com/puppetlabs/inifile). It uses the resources of the module [puppetlabs/hocon](https://forge.puppetlabs.com/puppetlabs/hocon) to manage the files in HOCON format.
+Additionally the module uses [puppetlabs/puppetserver_gem](https://forge.puppetlabs.com/puppetlabs/puppetserver_gem) to install gems in Puppet Server.
 
-### Puppet Server
+### Puppet Agent
 
-The module lets you install, configure and manage the Puppet Server. Currently it's possible to manage the `init settings`, `puppetserver.conf` and `webserver.conf` configuration files. The class `::ospuppet::server ` does have parameters for the very standard settings in the mentioned configuration files. There are also hashes to add or manage other settings without dedicated parameters.
+The module lets you install, configure and manage the Puppet Agent. Currently it's possible to manage the `init settings` and the `puppet.conf` configuration file. The class `::ospuppet::agent` does have parameters for the very standard settings in the configuration file. There are also hashes to add or manage other settings without dedicated parameters.
 
 ### Puppet Master
 
 The module lets you configure the `hiera.yaml` with the backends `yaml` and `eyaml`. The module creates a private-/public-key pair if `eyaml` is enabled.
+
+### Puppet Server
+
+The module lets you install, configure and manage the Puppet Server. Currently it's possible to manage the `init settings`, `puppetserver.conf` and `webserver.conf` configuration files. The class `::ospuppet::server` does have parameters for the very standard settings in the mentioned configuration files. There are also hashes to add or manage other settings without dedicated parameters.
 
 ## Setup
 
@@ -56,18 +70,19 @@ Make sure that following modules are installed:
 puppet module install puppetlabs-stdlib
 puppet module install puppetlabs-inifile
 puppet module install puppetlabs-hocon
+puppet module install puppetlabs-puppetserver_gem
 ```
 Make sure that the necessary software packages are available for the package manager (like *yum*).
 For example you can use the [Puppet Collections](https://docs.puppetlabs.com/guides/puppetlabs_package_repositories.html#using-puppet-collections).
 
 ### Beginning with ospuppet
 
-#### Puppet Server
+#### Puppet Agent
 
-The simplest way to get Puppet Server up and running with this module is...
+The simplest way to install and start the Puppet Agent is...
 
 ```
-include ::ospuppet::server
+include ::ospuppet::agent
 ```
 
 #### Puppet Master
@@ -79,9 +94,60 @@ include ::ospuppet::server
 include ::ospuppet::master
 ```
 
+#### Puppet Server
+
+The simplest way to get Puppet Server up and running with this module is...
+
+```
+include ::ospuppet::server
+```
+
 ## Usage
 
-### Memory Allocation
+### Usage of Puppet Agent
+
+#### Install Puppet Agent and specify some settings
+
+Simply install the Puppet Agent, specify the `certname`, `server`, `runinterval`, etc. and start the service.
+
+```
+class { '::ospuppet::agent':
+  package_name      => 'puppet-agent',
+  package_version   => '1.2.4-1.el7',
+  service_running   => true,
+  service_enabled   => true,
+  certname          => $::fqdn,
+  server            => "puppetmaster.example.com",
+  usecacheonfailure => true,
+  runinterval       => '60m',
+}
+```
+
+### Usage of Puppet Master
+
+#### Configure Hiera Settings
+
+Configure the hiera settings in `hiera.yaml' and make sure that the necessary gems are installed:
+
+```
+class { '::ospuppet::master':
+  hiera_merge_package_version => '1.0.1',
+  hiera_eyaml_package_version => '2.0.8',
+  hiera_backends              => [ 'yaml', 'eyaml' ],
+  hiera_hierarchy             => [
+    'secure/nodes/%{::clientcert}',
+    'nodes/%{::clientcert}',
+    'services/%{::service}/%{::role}',
+    'locations/%{::location}',
+    'common',
+  ],
+  hiera_yaml_datadir          => '/etc/puppetlabs/code/environments/%{environment}/hieradata',
+}
+```
+
+### Usage of Puppet Server
+
+#### Memory Allocation
 Use following parameters to change the Puppet Server memory allocation and to set the path to the java binary (*init settings*).
 ```
 class { '::ospuppet::server':
@@ -92,7 +158,7 @@ class { '::ospuppet::server':
 }
 ```
 
-### Manage Puppet Server Service and stop Puppet Master
+#### Manage Puppet Server Service and stop Puppet Master
 
 This will make sure that the Puppet Server service is running and the service is enabled.
 When `$service_manage_master` is set to true it will make sure that any Puppet Master service is stopped.
@@ -107,7 +173,7 @@ class { '::ospuppet::server':
 }
 ```
 
-### Puppet Server should listen on specific IP and port
+#### Puppet Server should listen on specific IP and port
 
 Use the parameters `webserver_ssl_host` and `webserver_ssl_port` to specify the IP and port.
 ```
@@ -117,7 +183,7 @@ class { '::ospuppet::server':
 }
 ```
 
-### puppet-admin HTTP API Client Whitelist
+#### puppet-admin HTTP API Client Whitelist
 
 To manage the puppet-admin HTTP API Client Whitelist:
 ```
@@ -126,7 +192,7 @@ class { '::ospuppet::server':
 }
 ```
 
-### Add any setting to puppetserver.conf without specific parameter
+#### Add any setting to puppetserver.conf without specific parameter
 
 The hash `puppetserver_custom_settings` can be used to create any [hocon_setting](https://github.com/puppetlabs/puppetlabs-hocon#usage) resource.
 ```
@@ -147,7 +213,6 @@ class { '::ospuppet::server':
     },
   },
 }
-
 ```
 
 ## Reference
@@ -156,12 +221,18 @@ class { '::ospuppet::server':
 
 #### Public Classes
 
-  * `::ospuppet` main class. Empty.
+  * `::ospuppet::agent` class to manage Puppet Agent.
   * `::ospuppet::master` class to manage Puppet Master.
   * `::ospuppet::server` class to manage Puppet Server.
 
 #### Private Classes
 
+  * `::ospuppet` main class. Parameters for other classes. See [::ospuppet](#ospuppet).
+  * `::ospuppet::agent::config` class for the configuration of the Puppet Agent.
+    * `::ospuppet::agent::config::init_settings` manages the init settings.
+    * `::ospuppet::agent::config::settings` manages settings in `puppet.conf`.
+  * `::ospuppet::agent::install` class responsible for the installation of the Puppet Agent.
+  * `::ospuppet::agent::service` this class manages the Puppet Agent services.
   * `::ospuppet::master::config` class for the configuration of the Puppet Master.
     * `::ospuppet::master::config::hiera` manages the `hiera.yaml`.
       * `::ospuppet::master::config::hiera::eyaml` installs and configures eyaml.
@@ -175,7 +246,9 @@ class { '::ospuppet::server':
 
 ### Parameters
 
-#### ::ospuppet::master
+#### ::ospuppet
+
+Do NOT declare this private class! Please rely on automated data binding to set those parameter values!
 
 ##### `puppet_user`
 
@@ -185,6 +258,14 @@ Specifies the user for the Puppet processes. Valid options: a string containing 
 
 Specifies the group for the Puppet processes. Valid options: a string containing a valid user name. Default: `puppet`.
 
+##### `puppet_confdir`
+
+Specifies the path to the puppet configuration files. Valid options: a string containing an absolute path. options: Default: `/etc/puppetlabs/puppet`
+
+##### `puppet_config`
+
+Specifies the configuration file for Puppet. Valid options: a string containing a valid file name. Default: `puppet.conf`.
+
 ##### `puppet_gem_provider`
 
 Specifies the provider for Puppet. Valid options: a string containing a valid provider. Default: `puppet_gem`.
@@ -192,6 +273,90 @@ Specifies the provider for Puppet. Valid options: a string containing a valid pr
 ##### `puppetserver_gem_provider`
 
 Specifies the provider for Puppet Server. Valid options: a string containing a valid provider. Default: `puppetserver_gem`.
+
+#### ::ospuppet::agent
+
+##### `package_name`
+
+Specifies the package to install. Valid options: a string containing a valid package name. Default: `puppet-agent`.
+
+##### `package_version`
+
+Specifies which version of the package should be installed. Valid options: a string containing a version. Default: `latest`.
+
+##### `service_name`
+
+Specifies the service name of the Puppet Agent. Valid options: a string containing a valid service name. Default: `puppet`.
+
+##### `service_running`
+
+Specifies if the service is running. Valid options: a boolean. Default: `true`.
+
+##### `service_enabled`
+
+Specifies if the service is enabled. Valid options: a boolean. Default: `true`.
+
+##### `init_settings_config`
+
+Specifies the init settings configuration file. Valid options: a string containing an absolute path. Default: `/etc/sysconfig/puppet` (RedHat) or `/etc/default/puppet` (Debian).
+
+##### `init_settings_custom_settings`
+
+A hash for any init setting. Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
+
+##### `init_settings_custom_subsettings`
+
+A hash for any init (sub-)setting (like `JAVA_ARGS`). Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
+
+##### `certname`
+
+The name to use when handling certificates. Valid Options: a valid FQDN. Default: `$::fqdn`
+
+##### `server`
+
+Specifies the puppet master server to which the puppet agent should connect. Valid Options: a hostname or FQDN. Default: `puppet`
+
+##### `ca_server`
+
+The server to use for certificate authority requests. Only set if parameter is defined. Otherwise using puppet defaults. Valid Options: a hostname or FQDN. Default: `undef`
+
+##### `report`
+
+Whether to send reports after every transaction. Valid options: a boolean. Default: `true`.
+
+##### `report_server`
+
+The server to send transaction reports to. Only set if parameter is defined. Otherwise using puppet defaults. Valid Options: a hostname or FQDN. Default: `undef`
+
+##### `environment`
+
+The environment Puppet is running in. Valid options: a string. Default: `production`
+
+##### `priority`
+
+The scheduling priority of the process. Only set if parameter is defined. Otherwise using puppet defaults. Valid options: an integer. Default: `undef`
+
+##### `usecacheonfailure`
+
+Whether to use the cached configuration when the remote configuration will not compile. Valid options: a boolean. Default: `true`.
+
+##### `runinterval`
+
+How often puppet agent applies the catalog. Valid options: 0 or a string ending with s, m, h, d or y. Default: `2m`
+
+##### `waitforcert`
+
+How frequently puppet agent should ask for a signed certificate. Valid options: 0 or a string ending with s, m, h, d or y. Default: `2m`
+
+##### `daemonize`
+
+Whether to send the process into the background. Valid options: a boolean. Default: `true`.
+
+##### `custom_settings`
+
+A hash for any setting in the `puppet.conf`, section `[agent]`. Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
+
+#### ::ospuppet::master
 
 ##### `hiera_config`
 
