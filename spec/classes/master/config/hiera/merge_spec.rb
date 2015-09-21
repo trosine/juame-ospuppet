@@ -32,9 +32,11 @@ describe 'ospuppet::master::config::hiera::merge' do
   describe 'puppet master specified params used by config::hiera::merge' do
     context 'puppet master should contain package puppet-deeper_merge and puppetserver-deeper_merge' do
       let(:pre_condition) {
-        'class { "ospuppet::master":
+        'class { "ospuppet":
           puppet_gem_provider         => "pe_puppet_gem",
           puppetserver_gem_provider   => "pe_puppetserver_gem",
+        } ->
+        class { "ospuppet::master":
           hiera_merge_package_name    => "deeper_merge",
           hiera_merge_package_version => "1.2.3",
         }'

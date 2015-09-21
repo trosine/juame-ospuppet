@@ -86,10 +86,12 @@ describe 'ospuppet::master::config::hiera::eyaml' do
     end
     context 'puppet master should contain package eyaml version 1.2.3' do
       let(:pre_condition) {
-        'class { "ospuppet::master":
-          hiera_backends              => ["yaml", "eyaml"],
+        'class { "ospuppet":
           puppet_gem_provider         => "pe_puppet_gem",
           puppetserver_gem_provider   => "pe_puppetserver_gem",
+        } ->
+        class { "ospuppet::master":
+          hiera_backends              => ["yaml", "eyaml"],
           hiera_merge_package_name    => "eyaml",
           hiera_merge_package_version => "1.2.3",
         }'

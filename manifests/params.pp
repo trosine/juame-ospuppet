@@ -6,5 +6,6 @@ class ospuppet::params {
   $puppet_confdir          = '/etc/puppetlabs/puppet'
   $puppet_config           = 'puppet.conf'
   $puppet_gem_provider     = 'puppet_gem'
+  $puppetserver_gem_provider   = 'puppetserver_gem'
 
 }

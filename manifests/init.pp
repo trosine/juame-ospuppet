@@ -5,6 +5,7 @@ class ospuppet (
   $puppet_confdir              = $::ospuppet::params::puppet_confdir,
   $puppet_config               = $::ospuppet::params::puppet_config,
   $puppet_gem_provider         = $::ospuppet::params::puppet_gem_provider,
+  $puppetserver_gem_provider   = $::ospuppet::params::puppetserver_gem_provider,
 ) inherits ::ospuppet::params {
 
   validate_string(
@@ -12,6 +13,7 @@ class ospuppet (
     $puppet_group,
     $puppet_config,
     $puppet_gem_provider,
+    $puppetserver_gem_provider,
   )
 
   validate_absolute_path(

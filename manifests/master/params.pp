@@ -3,8 +3,6 @@ class ospuppet::master::params {
 
   $puppet_user                 = 'puppet'
   $puppet_group                = 'puppet'
-  $puppet_gem_provider         = 'puppet_gem'
-  $puppetserver_gem_provider   = 'puppetserver_gem'
   $hiera_config                = '/etc/puppetlabs/code/hiera.yaml'
   $hiera_backends              = [ 'yaml', 'eyaml' ]
   $hiera_hierarchy             = [

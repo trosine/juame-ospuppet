@@ -1,8 +1,8 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::master::config::hiera::merge {
 
-  $puppet_gem_provider         = $::ospuppet::master::puppet_gem_provider
-  $puppetserver_gem_provider   = $::ospuppet::master::puppetserver_gem_provider
+  $puppet_gem_provider         = $::ospuppet::puppet_gem_provider
+  $puppetserver_gem_provider   = $::ospuppet::puppetserver_gem_provider
   $hiera_merge_package_name    = $::ospuppet::master::hiera_merge_package_name
   $hiera_merge_package_version = $::ospuppet::master::hiera_merge_package_version
 

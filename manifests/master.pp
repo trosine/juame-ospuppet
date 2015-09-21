@@ -2,8 +2,6 @@
 class ospuppet::master (
   $puppet_user                 = $::ospuppet::master::params::puppet_user,
   $puppet_group                = $::ospuppet::master::params::puppet_group,
-  $puppet_gem_provider         = $::ospuppet::master::params::puppet_gem_provider,
-  $puppetserver_gem_provider   = $::ospuppet::master::params::puppetserver_gem_provider,
   $hiera_config                = $::ospuppet::master::params::hiera_config,
   $hiera_backends              = $::ospuppet::master::params::hiera_backends,
   $hiera_hierarchy             = $::ospuppet::master::params::hiera_hierarchy,
@@ -19,6 +17,8 @@ class ospuppet::master (
   $hiera_eyaml_private_key     = $::ospuppet::master::params::hiera_eyaml_private_key,
   $hiera_eyaml_public_key      = $::ospuppet::master::params::hiera_eyaml_public_key,
 ) inherits ::ospuppet::master::params {
+
+  require ospuppet
 
   if defined(Class[::ospuppet::server]) {
     $notify_server = true
@@ -38,8 +38,6 @@ class ospuppet::master (
   validate_string(
     $puppet_user,
     $puppet_group,
-    $puppet_gem_provider,
-    $puppetserver_gem_provider,
     $hiera_merge_package_name,
     $hiera_merge_package_version,
     $hiera_merge_behavior,

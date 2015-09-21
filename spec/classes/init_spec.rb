@@ -51,6 +51,12 @@ describe 'ospuppet' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
+    context '$puppetserver_gem_provider should fail because it is not string' do
+      let(:params) { { :puppetserver_gem_provider => ['foo', 'bar'] } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+      end
+    end
   end
 
 end
