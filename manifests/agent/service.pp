@@ -1,13 +1,13 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::agent::service {
 
-  $agent_service_name    = $::ospuppet::agent_service_name
-  $agent_service_running = $::ospuppet::agent_service_running
-  $agent_service_enabled = $::ospuppet::agent_service_enabled
+  $service_name    = $::ospuppet::agent::service_name
+  $service_running = $::ospuppet::agent::service_running
+  $service_enabled = $::ospuppet::agent::service_enabled
 
-  service { $agent_service_name:
-    ensure => $agent_service_running,
-    enable => $agent_service_enabled,
+  service { $service_name:
+    ensure => $service_running,
+    enable => $service_enabled,
   }
 
 }

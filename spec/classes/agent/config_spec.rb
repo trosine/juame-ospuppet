@@ -7,7 +7,7 @@ describe 'ospuppet::agent::config' do
   } }
 
   let(:pre_condition) do
-    'class { "ospuppet": }'
+    'class { "ospuppet::agent": }'
   end
 
   context 'with defaults for all parameters' do

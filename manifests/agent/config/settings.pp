@@ -1,92 +1,92 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::agent::config::settings {
 
-  $puppet_confdir          = $::ospuppet::puppet_confdir
-  $puppet_config           = $::ospuppet::puppet_config
-  $agent_certname          = $::ospuppet::agent_certname
-  $agent_server            = $::ospuppet::agent_server
-  $agent_ca_server         = $::ospuppet::agent_ca_server
-  $agent_report            = $::ospuppet::agent_report
-  $agent_report_server     = $::ospuppet::agent_report_server
-  $agent_environment       = $::ospuppet::agent_environment
-  $agent_priority          = $::ospuppet::agent_priority
-  $agent_usecacheonfailure = $::ospuppet::agent_usecacheonfailure
-  $agent_runinterval       = $::ospuppet::agent_runinterval
-  $agent_waitforcert       = $::ospuppet::agent_waitforcert
-  $agent_daemonize         = $::ospuppet::agent_daemonize
-  $agent_custom_settings   = $::ospuppet::agent_custom_settings
+  $puppet_confdir    = $::ospuppet::puppet_confdir
+  $puppet_config     = $::ospuppet::puppet_config
+  $certname          = $::ospuppet::agent::certname
+  $server            = $::ospuppet::agent::server
+  $ca_server         = $::ospuppet::agent::ca_server
+  $report            = $::ospuppet::agent::report
+  $report_server     = $::ospuppet::agent::report_server
+  $environment       = $::ospuppet::agent::environment
+  $priority          = $::ospuppet::agent::priority
+  $usecacheonfailure = $::ospuppet::agent::usecacheonfailure
+  $runinterval       = $::ospuppet::agent::runinterval
+  $waitforcert       = $::ospuppet::agent::waitforcert
+  $daemonize         = $::ospuppet::agent::daemonize
+  $custom_settings   = $::ospuppet::agent::custom_settings
 
-  if $agent_ca_server {
-    $ensure_agent_ca_server = 'present'
+  if $ca_server {
+    $ensure_ca_server = 'present'
   } else {
-    $ensure_agent_ca_server = 'absent'
+    $ensure_ca_server = 'absent'
   }
 
-  if $agent_report_server {
-    $ensure_agent_report_server = 'present'
+  if $report_server {
+    $ensure_report_server = 'present'
   } else {
-    $ensure_agent_report_server = 'absent'
+    $ensure_report_server = 'absent'
   }
 
-  if $agent_priority {
-    $ensure_agent_priority = 'present'
+  if $priority {
+    $ensure_priority = 'present'
   } else {
-    $ensure_agent_priority = 'absent'
+    $ensure_priority = 'absent'
   }
 
-  $agent_default_settings = {
-    "${name}.agent_certname" => {
+  $default_settings = {
+    "${name}.certname" => {
       'setting' => 'certname',
-      'value'   => $agent_certname,
+      'value'   => $certname,
     },
-    "${name}.agent_server" => {
+    "${name}.server" => {
       'setting' => 'server',
-      'value'   => $agent_server,
+      'value'   => $server,
     },
-    "${name}.agent_ca_server" => {
-      'ensure'  => $ensure_agent_ca_server,
+    "${name}.ca_server" => {
+      'ensure'  => $ensure_ca_server,
       'setting' => 'ca_server',
-      'value'   => $agent_ca_server,
+      'value'   => $ca_server,
     },
-    "${name}.agent_report" => {
+    "${name}.report" => {
       'setting' => 'report',
-      'value'   => $agent_report,
+      'value'   => $report,
     },
-    "${name}.agent_report_server" => {
-      'ensure'  => $ensure_agent_report_server,
+    "${name}.report_server" => {
+      'ensure'  => $ensure_report_server,
       'setting' => 'report_server',
-      'value'   => $agent_report_server,
+      'value'   => $report_server,
     },
-    "${name}.agent_environment" => {
+    "${name}.environment" => {
       'setting' => 'environment',
-      'value'   => $agent_environment,
+      'value'   => $environment,
     },
-    "${name}.agent_priority" => {
-      'ensure'  => $ensure_agent_priority,
+    "${name}.priority" => {
+      'ensure'  => $ensure_priority,
       'setting' => 'priority',
-      'value'   => $agent_priority,
+      'value'   => $priority,
     },
-    "${name}.agent_usecacheonfailure" => {
+    "${name}.usecacheonfailure" => {
       'setting' => 'usecacheonfailure',
-      'value'   => $agent_usecacheonfailure,
+      'value'   => $usecacheonfailure,
     },
-    "${name}.agent_runinterval" => {
+    "${name}.runinterval" => {
       'setting' => 'runinterval',
-      'value'   => $agent_runinterval,
+      'value'   => $runinterval,
     },
-    "${name}.agent_waitforcert" => {
+    "${name}.waitforcert" => {
       'setting' => 'waitforcert',
-      'value'   => $agent_waitforcert,
+      'value'   => $waitforcert,
     },
-    "${name}.agent_daemonize" => {
+    "${name}.daemonize" => {
       'setting' => 'daemonize',
-      'value'   => $agent_daemonize,
+      'value'   => $daemonize,
     },
   }
 
-  $agent_settings = merge(
-    $agent_default_settings,
-    $agent_custom_settings,
+  $settings = merge(
+    $default_settings,
+    $custom_settings,
   )
 
   $defaults = {
@@ -96,6 +96,6 @@ class ospuppet::agent::config::settings {
     'path'              => "${$puppet_confdir}/${puppet_config}",
   }
 
-  create_resources(ini_setting, $agent_settings, $defaults)
+  create_resources(ini_setting, $settings, $defaults)
 
 }

@@ -7,7 +7,7 @@ describe 'ospuppet::agent::install' do
   } }
 
   let(:pre_condition) do
-    'class { "ospuppet": }'
+    'class { "ospuppet::agent": }'
   end
 
   context 'with defaults for all parameters' do
@@ -19,24 +19,24 @@ describe 'ospuppet::agent::install' do
   end
 
   describe 'package name validation' do
-    context 'class should install package puppet-agent with default parameter for ospuppet::package_name' do
+    context 'class should install package puppet-agent with default parameter for ospuppet::agent::package_name' do
       it { should contain_package('puppet-agent') }
     end
-    context 'class should install package with name of ospuppet::package_name' do
+    context 'class should install package with name of ospuppet::agent::package_name' do
       let(:pre_condition) do
-        'class { "ospuppet": package_name => "foobar-pkg" }'
+        'class { "ospuppet::agent": package_name => "foobar-pkg" }'
       end
       it { should contain_package('foobar-pkg') }
     end
   end
 
   describe 'package version validation' do
-    context 'class should install latest package with default parameter for ospuppet::package_version' do
+    context 'class should install latest package with default parameter for ospuppet::agent::package_version' do
       it { should contain_package('puppet-agent').with_ensure('latest') }
     end
-    context 'class should install package with version of ospuppet::package_version' do
+    context 'class should install package with version of ospuppet::agent::package_version' do
       let(:pre_condition) do
-        'class { "ospuppet": package_version => "2.3.1" }'
+        'class { "ospuppet::agent": package_version => "2.3.1" }'
       end
       it { should contain_package('puppet-agent').with_ensure('2.3.1') }
     end
