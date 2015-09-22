@@ -55,7 +55,7 @@ The module lets you install, configure and manage the Puppet Agent. Currently it
 
 ### Puppet Master
 
-The module lets you configure the `hiera.yaml` with the backends `yaml` and `eyaml`. The module creates a private-/public-key pair if `eyaml` is enabled.
+The module lets you configure the `hiera.yaml` with the backends `yaml` and `eyaml`. The module creates a private-/public-key pair if `eyaml` is enabled. The class has parameters for the standard settings in the configuration file (section `master`). It's possible to manage any ini setting with a `custom_settings` hash.
 
 ### Puppet Server
 
@@ -227,7 +227,7 @@ class { '::ospuppet::server':
 
 #### Private Classes
 
-  * `::ospuppet` main class. Parameters for other classes. See [::ospuppet](#ospuppet).
+  * `::ospuppet` main class. Parameters for other classes. See [::ospuppet](#ospuppet2).
   * `::ospuppet::agent::config` class for the configuration of the Puppet Agent.
     * `::ospuppet::agent::config::init_settings` manages the init settings.
     * `::ospuppet::agent::config::settings` manages settings in `puppet.conf`.
@@ -237,6 +237,7 @@ class { '::ospuppet::server':
     * `::ospuppet::master::config::hiera` manages the `hiera.yaml`.
       * `::ospuppet::master::config::hiera::eyaml` installs and configures eyaml.
       * `::ospuppet::master::config::hiera::merge` installs the gem for the merge behavior.
+    * `::ospuppet::master::config::settings` manages settings in `puppet.conf`.
   * `::ospuppet::server::config` class for the configuration of the Puppet Server.
     * `::ospuppet::server::config::init_settings` manages the init settings.
     * `::ospuppet::server::config::puppetserver` manages the settings in the `puppetserver.conf`.
@@ -264,7 +265,11 @@ Specifies the path to the puppet configuration files. Valid options: a string co
 
 ##### `puppet_config`
 
-Specifies the configuration file for Puppet. Valid options: a string containing a valid file name. Default: `puppet.conf`.
+Specifies the configuration file for Puppet. Valid options: a string containing a valid file name. Default: `puppet.conf`
+
+##### `puppet_codedir`
+
+Specifies the path to the puppet code dir. Valid options: a string containing an absolute path. Default: `/etc/puppetlabs/code`
 
 ##### `puppet_gem_provider`
 
@@ -357,6 +362,26 @@ Whether to send the process into the background. Valid options: a boolean. Defau
 A hash for any setting in the `puppet.conf`, section `[agent]`. Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
 
 #### ::ospuppet::master
+
+##### `vardir`
+
+Specifies the path to Puppet Server var directory. Valid options: a string containing an absolute path. Default: `/opt/puppetlabs/server/data/puppetserver`
+
+##### `logdir`
+
+Specifies the path to Puppet Server log directory. Valid options: a string containing an absolute path. Default: `/var/log/puppetlabs/puppetserver`
+
+##### `rundir`
+
+Specifies the path to Puppet Server run directory. Valid options: a string containing an absolute path. Default: `/var/run/puppetlabs/puppetserver`
+
+##### `pidfile`
+
+Specifies the path to Puppet Server pid file. Valid options: a string containing an absolute path. Default: `/var/run/puppetlabs/puppetserver/puppetserver.pid`
+
+##### `custom_settings`
+
+A hash for any setting in the `puppet.conf`, section `[master]`. Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
 
 ##### `hiera_config`
 

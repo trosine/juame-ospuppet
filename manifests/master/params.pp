@@ -1,6 +1,11 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::master::params {
 
+  $vardir                      = '/opt/puppetlabs/server/data/puppetserver'
+  $logdir                      = '/var/log/puppetlabs/puppetserver'
+  $rundir                      = '/var/run/puppetlabs/puppetserver'
+  $pidfile                     = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
+  $custom_settings             = {}
   $hiera_config                = '/etc/puppetlabs/code/hiera.yaml'
   $hiera_backends              = [ 'yaml', 'eyaml' ]
   $hiera_hierarchy             = [

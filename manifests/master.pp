@@ -1,5 +1,11 @@
 # Class to configure a Puppet Master. See README.md for more details.
 class ospuppet::master (
+  $vardir                      = $::ospuppet::master::params::vardir,
+  $logdir                      = $::ospuppet::master::params::logdir,
+  $rundir                      = $::ospuppet::master::params::rundir,
+  $pidfile                     = $::ospuppet::master::params::pidfile,
+  $codedir                     = $::ospuppet::master::params::codedir,
+  $custom_settings             = $::ospuppet::master::params::custom_settings,
   $hiera_config                = $::ospuppet::master::params::hiera_config,
   $hiera_backends              = $::ospuppet::master::params::hiera_backends,
   $hiera_hierarchy             = $::ospuppet::master::params::hiera_hierarchy,
@@ -18,11 +24,11 @@ class ospuppet::master (
 
   require ospuppet
 
-  if defined(Class[::ospuppet::server]) {
-    $notify_server = true
-  }
-
   validate_absolute_path(
+    $vardir,
+    $logdir,
+    $rundir,
+    $pidfile,
     $hiera_config,
     $hiera_yaml_datadir,
     $hiera_eyaml_key_dir,
@@ -45,8 +51,17 @@ class ospuppet::master (
     $hiera_eyaml_public_key,
   )
 
+  validate_hash(
+    $custom_settings,
+  )
+
   validate_re($hiera_merge_behavior, '^(native|deep|deeper)$')
   validate_re($hiera_logger, '^(noop|puppet|console)$')
+
+  if defined(Class[::ospuppet::server]) {
+    Class[ospuppet::master::config::hiera] ~> Class[ospuppet::server::service]
+    Class[ospuppet::master::config::settings] ~> Class[ospuppet::server::service]
+  }
 
   contain ospuppet::master::config
 

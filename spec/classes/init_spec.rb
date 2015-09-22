@@ -45,6 +45,12 @@ describe 'ospuppet' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
+    context '$puppet_codedir should fail because it is not absolute path' do
+      let(:params) { { :puppet_codedir => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+      end
+    end
     context '$puppet_gem_provider should fail because it is not string' do
       let(:params) { { :puppet_gem_provider => ['foo', 'bar'] } }
       it do

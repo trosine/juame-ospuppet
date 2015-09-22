@@ -4,6 +4,7 @@ class ospuppet (
   $puppet_group                = $::ospuppet::params::puppet_group,
   $puppet_confdir              = $::ospuppet::params::puppet_confdir,
   $puppet_config               = $::ospuppet::params::puppet_config,
+  $puppet_codedir              = $::ospuppet::params::puppet_codedir,
   $puppet_gem_provider         = $::ospuppet::params::puppet_gem_provider,
   $puppetserver_gem_provider   = $::ospuppet::params::puppetserver_gem_provider,
 ) inherits ::ospuppet::params {
@@ -18,6 +19,7 @@ class ospuppet (
 
   validate_absolute_path(
     $puppet_confdir,
+    $puppet_codedir,
   )
 
   if $caller_module_name != $module_name {
