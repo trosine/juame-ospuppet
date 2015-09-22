@@ -71,6 +71,24 @@ describe 'ospuppet::agent::config::settings' do
         .with_value(true)
       }
     end
+    context 'use custom_settings to define ini setting' do
+      let(:pre_condition) {
+        'class { "ospuppet::agent":
+          custom_settings => {
+            "foo" => {
+              "setting"    => "foo",
+              "value"      => "bar",
+            },
+          },
+        }'
+      }
+      it { should contain_ini_setting('foo')
+        .with_ensure('present')
+        .with_section('agent')
+        .with_setting('foo')
+        .with_value('bar')
+      }
+    end
   end
 
 end

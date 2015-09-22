@@ -63,6 +63,30 @@ describe 'ospuppet::master' do
   end
 
   describe 'parameter validation fails' do
+    context '$vardir should fail because it is not absolute path' do
+      let(:params) { { :vardir => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+      end
+    end
+    context '$logdir should fail because it is not absolute path' do
+      let(:params) { { :logdir => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+      end
+    end
+    context '$rundir should fail because it is not absolute path' do
+      let(:params) { { :rundir => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+      end
+    end
+    context '$pidfile should fail because it is not absolute path' do
+      let(:params) { { :pidfile => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+      end
+    end
     context '$hiera_config should fail because it is not absolute path' do
       let(:params) { { :hiera_config => 'foobar' } }
       it do
