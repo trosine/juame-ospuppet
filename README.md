@@ -347,7 +347,7 @@ Whether to use the cached configuration when the remote configuration will not c
 
 ##### `runinterval`
 
-How often puppet agent applies the catalog. Valid options: 0 or a string ending with s, m, h, d or y. Default: `2m`
+How often puppet agent applies the catalog. Valid options: 0 or a string ending with s, m, h, d or y. Default: `30m`
 
 ##### `waitforcert`
 
