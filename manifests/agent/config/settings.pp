@@ -1,8 +1,6 @@
 # PRIVATE CLASS - do not use directly
 class ospuppet::agent::config::settings {
 
-  $puppet_confdir    = $::ospuppet::puppet_confdir
-  $puppet_config     = $::ospuppet::puppet_config
   $certname          = $::ospuppet::agent::certname
   $server            = $::ospuppet::agent::server
   $ca_server         = $::ospuppet::agent::ca_server
@@ -89,13 +87,6 @@ class ospuppet::agent::config::settings {
     $custom_settings,
   )
 
-  $defaults = {
-    'ensure'            => present,
-    'section'           => 'agent',
-    'key_val_separator' => ' = ',
-    'path'              => "${$puppet_confdir}/${puppet_config}",
-  }
-
-  create_resources(ini_setting, $settings, $defaults)
+  create_resources(::ospuppet::config::main_config::agent, $settings)
 
 }

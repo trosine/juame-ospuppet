@@ -38,13 +38,6 @@ class ospuppet::master::config::settings {
     $custom_settings,
   )
 
-  $defaults = {
-    'ensure'            => present,
-    'section'           => 'master',
-    'key_val_separator' => ' = ',
-    'path'              => "${$puppet_confdir}/${puppet_config}",
-  }
-
-  create_resources(ini_setting, $settings, $defaults)
+  create_resources(::ospuppet::config::main_config::master, $settings)
 
 }
