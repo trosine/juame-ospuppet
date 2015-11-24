@@ -33,60 +33,84 @@ class ospuppet::agent::config::settings {
   }
 
   $default_settings = {
-    "${name}.certname" => {
+    "${name}.agent.certname" => {
+      'ensure'  => 'absent',
       'setting' => 'certname',
-      'value'   => $certname,
     },
-    "${name}.server" => {
+    "${name}.agent.server" => {
+      'ensure'  => 'absent',
       'setting' => 'server',
-      'value'   => $server,
     },
-    "${name}.ca_server" => {
-      'ensure'  => $ensure_ca_server,
+    "${name}.agent.ca_server" => {
+      'ensure'  => 'absent',
       'setting' => 'ca_server',
-      'value'   => $ca_server,
     },
-    "${name}.report" => {
+    "${name}.agent.report" => {
       'setting' => 'report',
       'value'   => $report,
     },
-    "${name}.report_server" => {
-      'ensure'  => $ensure_report_server,
+    "${name}.agent.report_server" => {
+      'ensure'  => 'absent',
       'setting' => 'report_server',
-      'value'   => $report_server,
     },
-    "${name}.environment" => {
+    "${name}.agent.environment" => {
+      'ensure'  => 'absent',
       'setting' => 'environment',
-      'value'   => $environment,
     },
-    "${name}.priority" => {
+    "${name}.agent.priority" => {
       'ensure'  => $ensure_priority,
       'setting' => 'priority',
       'value'   => $priority,
     },
-    "${name}.usecacheonfailure" => {
+    "${name}.agent.usecacheonfailure" => {
       'setting' => 'usecacheonfailure',
       'value'   => $usecacheonfailure,
     },
-    "${name}.runinterval" => {
+    "${name}.agent.runinterval" => {
       'setting' => 'runinterval',
       'value'   => $runinterval,
     },
-    "${name}.waitforcert" => {
+    "${name}.agent.waitforcert" => {
       'setting' => 'waitforcert',
       'value'   => $waitforcert,
     },
-    "${name}.daemonize" => {
+    "${name}.agent.daemonize" => {
       'setting' => 'daemonize',
       'value'   => $daemonize,
     },
   }
 
-  $settings = merge(
+  $agent_settings = merge(
     $default_settings,
     $custom_settings,
   )
 
-  create_resources(::ospuppet::config::main_config::agent, $settings)
+  $main_settings = {
+    "${name}.main.certname" => {
+      'setting' => 'certname',
+      'value'   => $certname,
+    },
+    "${name}.main.environment" => {
+      'setting' => 'environment',
+      'value'   => $environment,
+    },
+    "${name}.main.server" => {
+      'setting' => 'server',
+      'value'   => $server,
+    },
+    "${name}.main.ca_server" => {
+      'ensure'  => $ensure_ca_server,
+      'setting' => 'ca_server',
+      'value'   => $ca_server,
+    },
+    "${name}.main.report_server" => {
+      'ensure'  => $ensure_report_server,
+      'setting' => 'report_server',
+      'value'   => $report_server,
+    },
+  }
+
+  create_resources(::ospuppet::config::main_config::main, $main_settings)
+  create_resources(::ospuppet::config::main_config::agent, $agent_settings)
 
 }

@@ -30,18 +30,12 @@ class ospuppet::agent (
     $service_name,
     $certname,
     $server,
+    $ca_server,
+    $report_server,
     $environment,
     $runinterval,
     $waitforcert,
   )
-
-  if $ca_server {
-    validate_string($ca_server)
-  }
-
-  if $report_server {
-    validate_string($report_server)
-  }
 
   if $priority {
     validate_integer($priority)
@@ -65,6 +59,7 @@ class ospuppet::agent (
     $init_settings_custom_subsettings,
   )
 
+  # todo: validate_re($certname, '/\A[a-z0-9._-]+\Z/.')
   validate_re($runinterval, '^\d+(?:.\d+)?(?:s|m|h|d|y)$')
   validate_re($waitforcert, '(^\d+(?:.\d+)?(?:s|m|h|d|y)$|^0$)')
 

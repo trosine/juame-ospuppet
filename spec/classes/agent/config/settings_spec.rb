@@ -22,51 +22,47 @@ describe 'ospuppet::agent::config::settings' do
 
   context 'validation of default configuration parameters' do
     context 'should contain ini_setting resources with default params' do
-      it { should contain_ini_setting('ospuppet::agent::config::settings.certname')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.main.certname')\
         .with_setting('certname')
         .with_value('testhost.example.com')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.server')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.main.server')\
         .with_setting('server')
         .with_value('puppet')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.server')\
-        .with_setting('server')
-        .with_value('puppet')
-      }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.ca_server')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.main.ca_server')\
         .with_setting('ca_server')
         .with_ensure('absent')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.report')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.report')\
         .with_setting('report')
         .with_value(true)
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.report_server')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.main.report_server')\
         .with_setting('report_server')
         .with_ensure('absent')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.environment')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.main.environment')\
         .with_setting('environment')
         .with_value('production')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.priority')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.priority')\
         .with_setting('priority')
         .with_ensure('absent')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.usecacheonfailure')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.usecacheonfailure')\
         .with_setting('usecacheonfailure')
         .with_value(true)
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.runinterval')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.runinterval')\
         .with_setting('runinterval')
         .with_value('30m')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.waitforcert')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.waitforcert')\
         .with_setting('waitforcert')
         .with_value('2m')
       }
-      it { should contain_ini_setting('ospuppet::agent::config::settings.daemonize')\
+      it { should contain_ini_setting('ospuppet::agent::config::settings.agent.daemonize')\
         .with_setting('daemonize')
         .with_value(true)
       }
