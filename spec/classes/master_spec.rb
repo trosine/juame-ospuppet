@@ -87,6 +87,12 @@ describe 'ospuppet::master' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
       end
     end
+    context '$dns_alt_names should fail because it is not string' do
+      let(:params) { { :dns_alt_names => ['foo', 'bar'] } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+      end
+    end
     context '$hiera_config should fail because it is not absolute path' do
       let(:params) { { :hiera_config => 'foobar' } }
       it do

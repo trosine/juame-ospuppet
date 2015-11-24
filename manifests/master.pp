@@ -5,6 +5,7 @@ class ospuppet::master (
   $rundir                      = $::ospuppet::master::params::rundir,
   $pidfile                     = $::ospuppet::master::params::pidfile,
   $codedir                     = $::ospuppet::master::params::codedir,
+  $dns_alt_names               = $::ospuppet::master::params::dns_alt_names,
   $custom_settings             = $::ospuppet::master::params::custom_settings,
   $hiera_config                = $::ospuppet::master::params::hiera_config,
   $hiera_backends              = $::ospuppet::master::params::hiera_backends,
@@ -40,6 +41,7 @@ class ospuppet::master (
   )
 
   validate_string(
+    $dns_alt_names,
     $hiera_merge_package_name,
     $hiera_merge_package_version,
     $hiera_merge_behavior,

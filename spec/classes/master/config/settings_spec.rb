@@ -50,6 +50,21 @@ describe 'ospuppet::master::config::settings' do
         .with_setting('codedir')
         .with_value('/etc/puppetlabs/code')
       }
+      it { should contain_ini_setting('ospuppet::master::config::settings.main.dns_alt_names')
+        .with_ensure('absent')
+        .with_section('main')
+        .with_setting('dns_alt_names')
+      }
+    end
+  end
+
+  describe 'validation of customized configuration parameters' do
+    context 'should contain ini_setting resource for dns_alt_names with specified value' do
+      let(:pre_condition) do
+        'class { "ospuppet::master": dns_alt_names => "puppet,puppet.example.com" }'
+      end
+      it { should contain_ini_setting('ospuppet::master::config::settings.main.dns_alt_names')\
+        .with_section('main').with_setting('dns_alt_names').with_value('puppet,puppet.example.com') }
     end
     context 'use custom_settings to define ini setting' do
       let(:pre_condition) {

@@ -5,6 +5,7 @@ class ospuppet::master::params {
   $logdir                      = '/var/log/puppetlabs/puppetserver'
   $rundir                      = '/var/run/puppetlabs/puppetserver'
   $pidfile                     = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
+  $dns_alt_names               = undef
   $custom_settings             = {}
   $hiera_config                = '/etc/puppetlabs/code/hiera.yaml'
   $hiera_backends              = [ 'yaml', 'eyaml' ]

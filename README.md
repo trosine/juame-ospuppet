@@ -379,6 +379,10 @@ Specifies the path to Puppet Server run directory. Valid options: a string conta
 
 Specifies the path to Puppet Server pid file. Valid options: a string containing an absolute path. Default: `/var/run/puppetlabs/puppetserver/puppetserver.pid`
 
+##### `dns_alt_names`
+
+A comma-separated list of alternative DNS names used for `subjectAltName` in the certificate. Setting is set in the file `puppet.conf`, section `[main]`.Valid options: a string containing a comma-separated list of names. Default: undef.
+
 ##### `custom_settings`
 
 A hash for any setting in the `puppet.conf`, section `[master]`. Valid options: a hash containing a hash with a title, valid parameters and values. Default: `{}` (empty hash).
