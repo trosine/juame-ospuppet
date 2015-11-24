@@ -20,31 +20,31 @@ describe 'ospuppet::master::config::settings' do
 
   context 'validation of default configuration parameters' do
     context 'should contain ini_setting resources with default params' do
-      it { should contain_ini_setting('ospuppet::master::config::settings.vardir')
+      it { should contain_ini_setting('ospuppet::master::config::settings.master.vardir')
         .with_ensure('present')
         .with_section('master')
         .with_setting('vardir')
         .with_value('/opt/puppetlabs/server/data/puppetserver')
       }
-      it { should contain_ini_setting('ospuppet::master::config::settings.logdir')
+      it { should contain_ini_setting('ospuppet::master::config::settings.master.logdir')
         .with_ensure('present')
         .with_section('master')
         .with_setting('logdir')
         .with_value('/var/log/puppetlabs/puppetserver')
       }
-      it { should contain_ini_setting('ospuppet::master::config::settings.rundir')
+      it { should contain_ini_setting('ospuppet::master::config::settings.master.rundir')
         .with_ensure('present')
         .with_section('master')
         .with_setting('rundir')
         .with_value('/var/run/puppetlabs/puppetserver')
       }
-      it { should contain_ini_setting('ospuppet::master::config::settings.pidfile')
+      it { should contain_ini_setting('ospuppet::master::config::settings.master.pidfile')
         .with_ensure('present')
         .with_section('master')
         .with_setting('pidfile')
         .with_value('/var/run/puppetlabs/puppetserver/puppetserver.pid')
       }
-      it { should contain_ini_setting('ospuppet::master::config::settings.codedir')
+      it { should contain_ini_setting('ospuppet::master::config::settings.master.codedir')
         .with_ensure('present')
         .with_section('master')
         .with_setting('codedir')

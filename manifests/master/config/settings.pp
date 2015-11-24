@@ -11,33 +11,33 @@ class ospuppet::master::config::settings {
   $custom_settings   = $::ospuppet::master::custom_settings
 
   $default_settings = {
-    "${name}.vardir" => {
+    "${name}.master.vardir" => {
       'setting' => 'vardir',
       'value'   => $vardir,
     },
-    "${name}.logdir" => {
+    "${name}.master.logdir" => {
       'setting' => 'logdir',
       'value'   => $logdir,
     },
-    "${name}.rundir" => {
+    "${name}.master.rundir" => {
       'setting' => 'rundir',
       'value'   => $rundir,
     },
-    "${name}.pidfile" => {
+    "${name}.master.pidfile" => {
       'setting' => 'pidfile',
       'value'   => $pidfile,
     },
-    "${name}.codedir" => {
+    "${name}.master.codedir" => {
       'setting' => 'codedir',
       'value'   => $puppet_codedir,
     },
   }
 
-  $settings = merge(
+  $master_settings = merge(
     $default_settings,
     $custom_settings,
   )
 
-  create_resources(::ospuppet::config::main_config::master, $settings)
+  create_resources(::ospuppet::config::main_config::master, $master_settings)
 
 }
