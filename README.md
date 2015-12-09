@@ -445,6 +445,10 @@ Specifies the name of the eyaml private key. Valid options: a string. Default: `
 
 Specifies the name of the eyaml public key. Valid options: a string. Default: `public_key.pkcs7.pem`.
 
+##### `gem_provider_install_options`
+
+Specifies an array for the `install_options` of the package-resources with provider `gem`. Valid options: an array. Default: `[]`.
+
 #### ::ospuppet::server
 
 ##### `package_name`
