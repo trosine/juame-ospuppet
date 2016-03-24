@@ -17,7 +17,7 @@
     { "name":"puppetlabs/stdlib", "version_requirement":"4.x" },
     { "name":"puppetlabs/inifile", "version_requirement":"1.x" },
     { "name":"puppetlabs/hocon", "version_requirement":">=0.9.2 <2.0.0" },
-    { "name":"puppetlabs/puppetserver_gem", "version_requirement":">=0.1.0 <1.0.0" }
+    { "name":"puppetlabs/puppetserver_gem", "version_requirement":">=0.2.0 <1.0.0" }
   ],
   "requirements": [
     { "name": "puppet", "version_requirement": ">=4.2.0 <5.0.0" }
