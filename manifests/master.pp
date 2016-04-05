@@ -4,7 +4,6 @@ class ospuppet::master (
   $logdir                       = $::ospuppet::master::params::logdir,
   $rundir                       = $::ospuppet::master::params::rundir,
   $pidfile                      = $::ospuppet::master::params::pidfile,
-  $codedir                      = $::ospuppet::master::params::codedir,
   $dns_alt_names                = $::ospuppet::master::params::dns_alt_names,
   $custom_settings              = $::ospuppet::master::params::custom_settings,
   $hiera_config                 = $::ospuppet::master::params::hiera_config,
