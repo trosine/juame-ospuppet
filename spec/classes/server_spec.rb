@@ -224,12 +224,6 @@ describe 'ospuppet::server' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
       end
     end
-    context '$puppetserver_admin_client_whitelist should fail because it is not array' do
-      let(:params) { { :puppetserver_admin_client_whitelist => 'foobar' } }
-      it do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not an Array/)
-      end
-    end
     context '$puppetserver_ruby_load_path should fail because it is absolute path in array' do
       let(:params) { { :puppetserver_ruby_load_path => ['foo','bar'] } }
       it do

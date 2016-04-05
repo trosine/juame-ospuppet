@@ -11,7 +11,6 @@ class ospuppet::server::config::puppetserver {
   $puppetserver_master_log_dir         = $::ospuppet::server::puppetserver_master_log_dir
   $puppetserver_max_active_instances   = $::ospuppet::server::puppetserver_max_active_instances
   $puppetserver_profiler_enabled       = $::ospuppet::server::puppetserver_profiler_enabled
-  $puppetserver_admin_client_whitelist = $::ospuppet::server::puppetserver_admin_client_whitelist
   $puppetserver_custom_settings        = $::ospuppet::server::puppetserver_custom_settings
 
   $_puppetserver_ruby_load_path = {
@@ -90,14 +89,6 @@ class ospuppet::server::config::puppetserver {
     }
   }
 
-  $_puppetserver_admin_client_whitelist = {
-    "${module_name}-puppetserver-client-whitelist" => {
-      'setting' => 'puppet-admin.client-whitelist',
-      'value'   => $puppetserver_admin_client_whitelist,
-      'type'    => 'array',
-    }
-  }
-
   $puppetserver_default_settings = merge(
     $_puppetserver_ruby_load_path,
     $_puppetserver_gem_home,
@@ -108,7 +99,6 @@ class ospuppet::server::config::puppetserver {
     $_puppetserver_master_log_dir,
     $_puppetserver_max_active_instances,
     $_puppetserver_profiler_enabled,
-    $_puppetserver_admin_client_whitelist,
   )
 
   $defaults = {

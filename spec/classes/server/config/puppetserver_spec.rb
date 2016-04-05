@@ -64,10 +64,8 @@ describe 'ospuppet::server::config::puppetserver' do
         .with_setting('profiler.enabled')\
         .with_value(false) }
     end
-    context 'should contain hocon_setting resource for admin-client-whitelist with default value' do
-      it { should contain_hocon_setting('ospuppet-puppetserver-client-whitelist')\
-        .with_setting('puppet-admin.client-whitelist')\
-        .with_value([]) }
+    context 'should not contain hocon_setting resource for admin-client-whitelist with default value' do
+      it { should_not contain_hocon_setting('ospuppet-puppetserver-client-whitelist') }
     end
   end
 
@@ -144,13 +142,11 @@ describe 'ospuppet::server::config::puppetserver' do
         .with_setting('profiler.enabled')\
         .with_value(true) }
     end
-    context 'should contain hocon_setting resource for admin-client-whitelist with specified value' do
+    context 'should not contain hocon_setting resource for admin-client-whitelist with specified value' do
       let(:pre_condition) do
         'class { "ospuppet::server": puppetserver_admin_client_whitelist => ["clientcert.example.com"] }'
       end
-      it { should contain_hocon_setting('ospuppet-puppetserver-client-whitelist')\
-        .with_setting('puppet-admin.client-whitelist')\
-        .with_value(['clientcert.example.com']) }
+      it { should_not compile }
     end
   end
 

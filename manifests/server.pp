@@ -29,7 +29,6 @@ class ospuppet::server (
   $puppetserver_master_log_dir         = '/var/log/puppetlabs/puppetserver',
   $puppetserver_max_active_instances   = undef,
   $puppetserver_profiler_enabled       = false,
-  $puppetserver_admin_client_whitelist = [],
   $puppetserver_custom_settings        = {},
   $webserver_access_log_config         = '/etc/puppetlabs/puppetserver/request-logging.xml',
   $webserver_client_auth               = 'want',
@@ -79,7 +78,6 @@ class ospuppet::server (
   )
 
   validate_array(
-    $puppetserver_admin_client_whitelist,
     $puppetserver_ruby_load_path,
   )
 
