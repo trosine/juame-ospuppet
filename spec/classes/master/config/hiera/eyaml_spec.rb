@@ -82,10 +82,12 @@ describe 'ospuppet::master::config::hiera::eyaml' do
       it { should contain_package('puppet.hiera-eyaml')
         .with_ensure('latest')
         .with_name('hiera-eyaml')
+        .with_install_options('[]')
         .with_provider('puppet_gem') }
       it { should contain_package('puppetserver.hiera-eyaml')
         .with_ensure('latest')
         .with_name('hiera-eyaml')
+        .with_install_options('[]')
         .with_provider('puppetserver_gem') }
     end
     context 'puppet master should contain package eyaml version 1.2.3' do
@@ -108,6 +110,21 @@ describe 'ospuppet::master::config::hiera::eyaml' do
         .with_ensure('1.2.3')
         .with_name('eyaml')
         .with_provider('pe_puppetserver_gem') }
+    end
+    context 'package resources for gems should get install_options' do
+      let(:pre_condition) {
+        'class { "ospuppet": } ->
+        class { "ospuppet::master":
+          hiera_backends               => ["yaml", "eyaml"],
+          gem_provider_install_options => [{"--http-proxy" => "http://localhost:8080"}],
+        }'
+      }
+      it { should contain_package('puppet.hiera-eyaml').with({
+        'install_options' => [{"--http-proxy"=>"http://localhost:8080"}],
+      })}
+      it { should contain_package('puppetserver.hiera-eyaml').with({
+        'install_options' => [{"--http-proxy"=>"http://localhost:8080"}],
+      })}
     end
   end
 

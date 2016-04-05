@@ -21,10 +21,12 @@ describe 'ospuppet::master::config::hiera::merge' do
       it { should contain_package('puppet.deep_merge')
         .with_ensure('latest')
         .with_name('deep_merge')
+        .with_install_options('[]')
         .with_provider('puppet_gem') }
       it { should contain_package('puppetserver.deep_merge')
         .with_ensure('latest')
         .with_name('deep_merge')
+        .with_install_options('[]')
         .with_provider('puppetserver_gem') }
     end
   end
@@ -49,6 +51,21 @@ describe 'ospuppet::master::config::hiera::merge' do
         .with_ensure('1.2.3')
         .with_name('deeper_merge')
         .with_provider('pe_puppetserver_gem') }
+    end
+    context 'package resources for gems should get install_options' do
+      let(:pre_condition) {
+        'class { "ospuppet": } ->
+        class { "ospuppet::master":
+          hiera_merge_package_name     => "test_merge",
+          gem_provider_install_options => [{"--http-proxy" => "http://localhost:8080"}],
+        }'
+      }
+      it { should contain_package('puppet.test_merge').with({
+        'install_options' => [{"--http-proxy"=>"http://localhost:8080"}],
+      })}
+      it { should contain_package('puppetserver.test_merge').with({
+        'install_options' => [{"--http-proxy"=>"http://localhost:8080"}],
+      })}
     end
   end
 

@@ -111,6 +111,12 @@ describe 'ospuppet::master' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not an Array/)
       end
     end
+    context '$gem_provider_install_options should fail because it is not array' do
+      let(:params) { { :gem_provider_install_options => 'foobar' } }
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not an Array/)
+      end
+    end
     context '$hiera_yaml_datadir should fail because it is not absolute path' do
       let(:params) { { :hiera_yaml_datadir => 'foobar' } }
       it do
