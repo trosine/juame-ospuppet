@@ -44,7 +44,7 @@ class ospuppet::server::config::webserver {
     $_webserver_access_log_config,
     $_webserver_client_auth,
     $_webserver_ssl_host,
-    $_webserver_ssl_port,
+    $_webserver_ssl_port
   )
 
   $defaults = {
@@ -54,7 +54,7 @@ class ospuppet::server::config::webserver {
 
   $webserver_hocon_settings = merge(
     $webserver_default_settings,
-    $webserver_custom_settings,
+    $webserver_custom_settings
   )
 
   create_resources(hocon_setting, $webserver_hocon_settings, $defaults)

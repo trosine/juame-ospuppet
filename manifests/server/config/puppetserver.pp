@@ -98,7 +98,7 @@ class ospuppet::server::config::puppetserver {
     $_puppetserver_master_run_dir,
     $_puppetserver_master_log_dir,
     $_puppetserver_max_active_instances,
-    $_puppetserver_profiler_enabled,
+    $_puppetserver_profiler_enabled
   )
 
   $defaults = {
@@ -108,7 +108,7 @@ class ospuppet::server::config::puppetserver {
 
   $puppetserver_hocon_settings = merge(
     $puppetserver_default_settings,
-    $puppetserver_custom_settings,
+    $puppetserver_custom_settings
   )
 
   create_resources(hocon_setting, $puppetserver_hocon_settings, $defaults)

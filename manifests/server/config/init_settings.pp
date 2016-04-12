@@ -111,13 +111,13 @@ class ospuppet::server::config::init_settings {
     $_init_settings_install_dir,
     $_init_settings_config,
     $_init_settings_bootstrap_config,
-    $_init_settings_service_stop_retries,
+    $_init_settings_service_stop_retries
   )
 
   $init_settings_default_subsettings = merge(
     $_init_settings_java_xms,
     $_init_settings_java_xmx,
-    $_init_settings_java_maxpermsize,
+    $_init_settings_java_maxpermsize
   )
 
   $defaults = {
@@ -127,12 +127,12 @@ class ospuppet::server::config::init_settings {
 
   $initsettings_ini_settings = merge(
     $init_settings_default_settings,
-    $init_settings_custom_settings,
+    $init_settings_custom_settings
   )
 
   $initsettings_ini_subsettings = merge(
     $init_settings_default_subsettings,
-    $init_settings_custom_subsettings,
+    $init_settings_custom_subsettings
   )
 
   create_resources(ini_setting, $initsettings_ini_settings, $defaults)

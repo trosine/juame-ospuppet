@@ -82,7 +82,7 @@ class ospuppet::agent::config::settings {
 
   $agent_settings = merge(
     $default_settings,
-    $custom_settings,
+    $custom_settings
   )
 
   $main_settings = {

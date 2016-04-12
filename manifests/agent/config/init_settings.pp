@@ -14,12 +14,12 @@ class ospuppet::agent::config::init_settings {
 
   $initsettings_ini_settings = merge(
     $init_settings_custom_settings,
-    {},
+    {}
   )
 
   $initsettings_ini_subsettings = merge(
     $init_settings_custom_subsettings,
-    {},
+    {}
   )
 
   create_resources(ini_setting, $initsettings_ini_settings, $defaults)

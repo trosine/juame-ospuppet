@@ -42,7 +42,7 @@ class ospuppet::master::config::settings {
 
   $master_settings = merge(
     $default_settings,
-    $custom_settings,
+    $custom_settings
   )
 
   $main_settings = {
