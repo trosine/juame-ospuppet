@@ -19,11 +19,38 @@ class ospuppet::master::config::hiera::eyaml {
     provider        => $puppet_gem_provider,
   }
 
-  package { "puppetserver.${hiera_eyaml_package_name}":
-    ensure          => $hiera_eyaml_package_version,
-    name            => $hiera_eyaml_package_name,
-    install_options => $gem_provider_install_options,
-    provider        => $puppetserver_gem_provider,
+  if (defined(Class['ospuppet::server'])) {
+    # it is only necessary to install the puppetserver gem with puppetserver
+
+    if (versioncmp($::serverversion,'4.0.0') >= 0) {
+
+      # the puppetserver_gem provider only works with puppet >= 4.0
+      package { "puppetserver.${hiera_eyaml_package_name}":
+        ensure          => $hiera_eyaml_package_version,
+        name            => $hiera_eyaml_package_name,
+        install_options => $gem_provider_install_options,
+        provider        => $puppetserver_gem_provider,
+      }
+
+    }
+    elsif ($hiera_eyaml_package_version != 'absent') {
+
+      if ($hiera_eyaml_package_version == 'latest') {
+        warning("ospuppet::master: For Puppet < 4.0, ensuring hiera-eyaml to 'latest' is equivalent to 'installed'")
+      }
+      case $hiera_eyaml_package_version {
+        /^(present|installed)$/: { $install_version = "" }
+        /^latest$/:              { $install_version = "" }
+        default:                 { $install_version = "--version ${hiera_eyaml_package_version}" }
+      }
+
+      exec { "puppetserver.${hiera_eyaml_package_name}":
+        command => "puppetserver gem install --no-ri --no-rdoc --env-shebang ${hiera_eyaml_package_name} ${gem_provider_install_options} ${install_version}",
+        creates => "${ospuppet::server::puppetserver_gem_home}/bin/eyaml",
+        require => Class['ospuppet::server::config']
+      }
+
+    }
   }
 
   file { $hiera_eyaml_key_dir:
