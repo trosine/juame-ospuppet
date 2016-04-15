@@ -121,8 +121,9 @@ class ospuppet::server::config::init_settings {
   )
 
   $defaults = {
-    'ensure' => 'present',
-    'path'   => $init_settings_config,
+    'ensure'            => 'present',
+    'path'              => $init_settings_config,
+    'key_val_separator' => '=',
   }
 
   $initsettings_ini_settings = merge(
